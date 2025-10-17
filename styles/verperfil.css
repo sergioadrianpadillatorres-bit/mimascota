@@ -38,4 +38,29 @@
   button:hover {
     background-color: #540b8f;
   }
-  
+  /* --- AJUSTE DE AVATAR EN MÓVILES --- */
+@media (max-width: 480px) {
+  .verperfil-avatar img {
+    width: 120px !important;
+    height: 120px !important;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .verperfil-container {
+    padding: 15px;
+  }
+
+  #perfilInfo {
+    font-size: 15px;
+    line-height: 1.4;
+  }
+
+  .verperfil-botones button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+  }
+}
