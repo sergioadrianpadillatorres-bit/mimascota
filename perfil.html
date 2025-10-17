@@ -40,13 +40,32 @@
         <input id="vacunas" type="text" />
       </div>
 
-      <div class="actions" style="display:flex;gap:8px;margin-top:12px;">
+    
+      <div class="actions">
         <button id="btnGuardar" class="btn primary">Guardar</button>
         <button id="btnEliminar" class="btn danger">Eliminar</button>
         <button id="btnQR" class="btn">Generar QR</button>
       </div>
+      
+      <!-- Contenedor del QR -->
+      <div id="qrContainer" class="qr-container"></div>
+      
 
-      <div id="qrContainer" style="margin-top:12px;"></div>
+<!-- Contenedor del QR -->
+<div id="qrContainer" class="qr-container">
+  <canvas id="codigoQR"></canvas>
+  <div class="qr-actions">
+    <button id="descargarQRBtn">Descargar PDF</button>
+    
+  </div>
+</div>
+
+
+      <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+      <script src="main.js"></script>
+      
+     
     </div>
   </main>
 

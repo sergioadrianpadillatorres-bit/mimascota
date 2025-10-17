@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let mascotas = JSON.parse(localStorage.getItem("mascotas")) || [];
 
   const params = new URLSearchParams(window.location.search);
-  const idx = params.get("pet");
+  const idx = parseInt(params.get("pet"), 10);
 
   const avatarImg = document.getElementById("avatarMascota");
   const avatarInput = document.getElementById("avatarInput");
@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
       avatar: mascotas[idx]?.avatar || DEFAULT_AVATAR,
     };
 
-    if (idx !== null && idx < mascotas.length) {
+    if (!isNaN(idx) && idx >= 0 && idx < mascotas.length) {
       mascotas[idx] = mascota;
     } else {
       mascotas.push(mascota);
@@ -93,14 +93,29 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // --- Generar QR ---
-  btnQR.addEventListener("click", () => {
+  btnQR.addEventListener("click", async () => {
     const mascota = mascotas[idx];
     if (!mascota) {
       alert("No hay datos de la mascota para generar el QR.");
       return;
     }
 
-    const qrData = `
+    qrContainer.innerHTML = "";
+    qrContainer.style.display = "flex";
+    qrContainer.style.flexDirection = "column";
+    qrContainer.style.alignItems = "center";
+
+    const canvas = document.createElement("canvas");
+    canvas.width = 300;
+    canvas.height = 300;
+    canvas.style.width = "150px";
+    canvas.style.height = "150px";
+    canvas.style.border = "3px solid var(--purple)";
+    canvas.style.borderRadius = "8px";
+    canvas.style.background = "#fff";
+    qrContainer.appendChild(canvas);
+
+    const qrText = `
       Nombre: ${mascota.nombre}
       Edad: ${mascota.edad}
       Dirección: ${mascota.direccion}
@@ -109,11 +124,53 @@ document.addEventListener("DOMContentLoaded", () => {
       Vacunas: ${mascota.vacunas}
     `;
 
-    const qrImg = document.createElement("img");
-    qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(qrData)}&size=200x200`;
-    qrImg.alt = "QR de la mascota";
+    // Generar el QR
+    if (window.QRCode && typeof window.QRCode.toCanvas === "function") {
+      await new Promise((resolve, reject) => {
+        QRCode.toCanvas(canvas, qrText, { width: 300, margin: 1 }, (err) => {
+          if (err) reject(err);
+          else resolve();
+        });
+      });
+    } else {
+      const img = new Image();
+      img.src = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(qrText)}&size=300x300`;
+      await new Promise((resolve) => {
+        img.onload = () => {
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, 300, 300);
+          resolve();
+        };
+      });
+    }
 
-    qrContainer.innerHTML = "";
-    qrContainer.appendChild(qrImg);
+    // Botón descargar PDF
+    const btnDownload = document.createElement("button");
+    btnDownload.className = "btn";
+    btnDownload.textContent = "Descargar PDF";
+    btnDownload.style.marginTop = "10px";
+    qrContainer.appendChild(btnDownload);
+
+    btnDownload.addEventListener("click", () => {
+      if (window.jspdf && window.jspdf.jsPDF) {
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF({ unit: "cm", format: "a4" });
+        const imgData = canvas.toDataURL("image/png");
+
+        const qrSize = 3; // cm
+        const x = (21 - qrSize) / 2;
+        const y = (29.7 - qrSize) / 2 - 1;
+
+        pdf.addImage(imgData, "PNG", x, y, qrSize, qrSize);
+        pdf.setFontSize(12);
+        pdf.text(mascota.nombre, 10.5, y + qrSize + 1, { align: "center" });
+        pdf.save(`QR_${mascota.nombre || "mascota"}.pdf`);
+      } else {
+        const link = document.createElement("a");
+        link.href = canvas.toDataURL("image/png");
+        link.download = "qr_mascota.png";
+        link.click();
+      }
+    });
   });
 });
