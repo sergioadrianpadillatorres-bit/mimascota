@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ver Perfil</title>
+  <link rel="stylesheet" href="styles/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a href="index.html" class="btn ghost">&larr; Perfiles</a>
+    <h1>Perfil público</h1>
+  </header>
+
+  <main class="container">
+    <div id="perfilCard" class="card perfil-card readonly">
+      <div class="avatar-block">
+        <img id="avatarPublic" class="avatar" alt="Avatar mascota" />
+      </div>
+      <h2 id="nombrePublic"></h2>
+      <div class="info readonly-info">
+        <p><strong>Edad:</strong> <span id="edadPublic"></span></p>
+        <p><strong>Dirección:</strong> <span id="direccionPublic"></span></p>
+        <p><strong>Celular 1:</strong> <span id="celular1Public"></span></p>
+        <p><strong>Celular 2:</strong> <span id="celular2Public"></span></p>
+        <p><strong>Vacunas:</strong> <span id="vacunasPublic"></span></p>
+      </div>
+      <div id="notFound" style="display:none;text-align:center;padding:16px;">
+        <p>Perfil no encontrado.</p>
+        <a href="index.html" class="btn">Volver</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="scripts/verPerfil.js"></script>
+</body>
+</html>
