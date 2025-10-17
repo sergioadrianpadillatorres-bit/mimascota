@@ -39,9 +39,7 @@
     width:120px;
     height:120px;
     border-radius:50%;
-    object-fit:cover;
-    /* solo borde de la imagen (si quieres quitarlo, elimina border) */
-    border: 3px solid var(--purple);
+    object-fit:cover;  
     background:#fff;
   }
   

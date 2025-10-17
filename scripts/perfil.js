@@ -19,8 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const celular2Input = document.getElementById("celular2");
   const vacunasInput = document.getElementById("vacunas");
 
-  // --- Mostrar datos existentes ---
-  if (mascotas[idx]) {
+  // 🟣 Cargar datos existentes
+  if (!isNaN(idx) && mascotas[idx]) {
     const m = mascotas[idx];
     avatarImg.src = m.avatar || DEFAULT_AVATAR;
     nombreInput.value = m.nombre || "";
@@ -33,21 +33,39 @@ document.addEventListener("DOMContentLoaded", () => {
     avatarImg.src = DEFAULT_AVATAR;
   }
 
-  // --- Cambiar avatar ---
+  // 🟣 Cambiar avatar (compatible con móviles)
   avatarInput.addEventListener("change", (e) => {
     const file = e.target.files[0];
     if (!file) return;
+
     const reader = new FileReader();
     reader.onload = (ev) => {
-      if (!mascotas[idx]) mascotas[idx] = {};
-      mascotas[idx].avatar = ev.target.result;
+      const imgData = ev.target.result;
+
+      // Verifica el tamaño antes de guardar (máx 2 MB)
+      if (imgData.length > 2_000_000) {
+        alert("La imagen es muy grande (máx 2MB). Usa una más pequeña.");
+        return;
+      }
+
+      // Asegura índice válido
+      if (isNaN(idx) || !mascotas[idx]) mascotas[idx] = {};
+
+      mascotas[idx].avatar = imgData;
       localStorage.setItem("mascotas", JSON.stringify(mascotas));
-      avatarImg.src = ev.target.result;
+
+      avatarImg.src = imgData;
+      alert("✅ Imagen actualizada correctamente.");
     };
+
+    reader.onerror = () => {
+      alert("Error al leer la imagen. Intenta nuevamente.");
+    };
+
     reader.readAsDataURL(file);
   });
 
-  // --- Guardar / Modificar perfil ---
+  // 🟣 Guardar / Modificar perfil
   btnGuardar.addEventListener("click", () => {
     const nombre = nombreInput.value.trim();
     const edad = edadInput.value.trim();
@@ -77,12 +95,17 @@ document.addEventListener("DOMContentLoaded", () => {
       mascotas.push(mascota);
     }
 
-    localStorage.setItem("mascotas", JSON.stringify(mascotas));
-    alert("✅ Perfil guardado correctamente.");
-    window.location.href = "index.html";
+    try {
+      localStorage.setItem("mascotas", JSON.stringify(mascotas));
+      alert("✅ Perfil guardado correctamente.");
+      window.location.href = "index.html";
+    } catch (err) {
+      alert("❌ Error guardando el perfil. Verifica espacio disponible.");
+      console.error(err);
+    }
   });
 
-  // --- Eliminar perfil ---
+  // 🟣 Eliminar perfil
   btnEliminar.addEventListener("click", () => {
     if (confirm("¿Seguro que deseas eliminar este perfil?")) {
       mascotas.splice(idx, 1);
@@ -92,9 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // --- Generar QR ---
-
-  
+  // 🟣 Generar QR
   btnQR.addEventListener("click", async () => {
     const mascota = mascotas[idx];
     if (!mascota) {
@@ -126,15 +147,16 @@ document.addEventListener("DOMContentLoaded", () => {
       Vacunas: ${mascota.vacunas}
     `;
 
-    // Generar el QR
-    if (window.QRCode && typeof window.QRCode.toCanvas === "function") {
+    try {
       await new Promise((resolve, reject) => {
-        QRCode.toCanvas(canvas, qrText, { width: 300, margin: 1 }, (err) => {
-          if (err) reject(err);
-          else resolve();
-        });
+        if (window.QRCode && typeof window.QRCode.toCanvas === "function") {
+          QRCode.toCanvas(canvas, qrText, { width: 300, margin: 1 }, (err) => {
+            if (err) reject(err);
+            else resolve();
+          });
+        } else reject();
       });
-    } else {
+    } catch {
       const img = new Image();
       img.src = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(qrText)}&size=300x300`;
       await new Promise((resolve) => {
@@ -146,7 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    // Botón descargar PDF
+    // 🟣 Botón descargar PDF
     const btnDownload = document.createElement("button");
     btnDownload.className = "btn";
     btnDownload.textContent = "Descargar PDF";
@@ -176,5 +198,3 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
-
-
