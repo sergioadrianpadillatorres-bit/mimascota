@@ -1,0 +1,105 @@
+body {
+    margin: 0;
+    font-family: Inter, system-ui, sans-serif;
+    background-color: #f9f9f9;
+  }
+  
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #6a0dad;
+    color: white;
+    padding: 10px 20px;
+  }
+  
+  .perfil-container {
+    max-width: 700px;
+    margin: 40px auto;
+    background: white;
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  
+  .perfil-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .avatar-block {
+    position: relative;
+    margin-bottom: 20px;
+  }
+  
+  .avatar-block .avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #6a0dad;
+  }
+  
+  .avatar-edit {
+    position: absolute;
+    bottom: 10px;
+    right: 12px;
+    font-size: 20px;
+    cursor: pointer;
+    background: none;
+    border: none;
+  }
+  
+  .info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+  
+  .info label {
+    font-weight: 600;
+    margin-top: 6px;
+  }
+  
+  .info input {
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+  
+  .actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 20px;
+  }
+  
+  .btn {
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+  }
+  
+  .btn.primary {
+    background-color: #6a0dad;
+    color: white;
+  }
+  
+  .btn.danger {
+    background-color: #e74c3c;
+    color: white;
+  }
+  
+  .qr-container {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .qr-actions {
+    margin-top: 8px;
+  }
+  

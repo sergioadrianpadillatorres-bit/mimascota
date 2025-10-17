@@ -7,14 +7,23 @@
   <link rel="stylesheet" href="styles/styles.css" />
 </head>
 <body>
-  <header class="topbar">
-    <h1>Mis Mascotas</h1>
-  </header>
+  <!-- Banner superior -->
+  <header class="banner">
+    <div class="banner-inner">
+      <h1 class="site-title">Mis Mascotas</h1>
+
+      <div id="ownerAvatarContainer" class="owner-avatar-container" title="Mi perfil">
+        <img id="ownerAvatar" src="imagenes/1000_F_259394679_GGA8JJAEkukYJL9XXFH2JoC3nMguBPNH.jpg" alt="Avatar del dueño" />
+      </div>
+    </div>
+
+   </header>
 
   <main class="container">
     <section>
       <div id="profiles" class="profiles"></div>
-      <div style="margin-top:16px;display:flex;gap:8px;justify-content:center;">
+
+      <div class="controls">
         <button id="addProfileBtn" class="btn primary">+ Agregar Mascota</button>
         <button id="clearAllBtn" class="btn ghost">Limpiar todo</button>
       </div>
@@ -22,5 +31,33 @@
   </main>
 
   <script src="scripts/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const avatarEl = document.getElementById('ownerAvatar');
+      const ownerBox = document.getElementById('ownerAvatarContainer');
+    
+      // leer avatar guardado y datos del dueño
+      const avatar = localStorage.getItem('avatarDueno');
+      const datosRaw = localStorage.getItem('datosDueno');
+    
+      if (avatar) avatarEl.src = avatar;
+    
+      if (datosRaw) {
+        try {
+          const datos = JSON.parse(datosRaw);
+          // si quieres mostrar el nombre al lado del avatar, asegúrate de tener <span id="ownerName"> en el HTML
+          const ownerNameEl = document.getElementById('ownerName');
+          if (ownerNameEl) ownerNameEl.textContent = `${datos.nombre || ''} ${datos.apellido || ''}`.trim();
+        } catch (e) {
+          console.warn('index: error parseando datosDueno', e);
+        }
+      }
+    
+      ownerBox.addEventListener('click', () => {
+        window.location.href = 'dueno.html';
+      });
+    });
+    </script>
+    
 </body>
 </html>

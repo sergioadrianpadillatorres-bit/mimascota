@@ -93,6 +93,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // --- Generar QR ---
+
+  
   btnQR.addEventListener("click", async () => {
     const mascota = mascotas[idx];
     if (!mascota) {
@@ -174,3 +176,5 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
+

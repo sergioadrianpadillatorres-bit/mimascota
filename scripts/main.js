@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
   addBtn.addEventListener('click', () => {
     const list = readMascotas();
     const nuevo = {
-      nombre: 'Nueva mascota',
+      nombre: 'Nueva mascotas',
       edad: '',
       direccion: '',
       celular1: '',

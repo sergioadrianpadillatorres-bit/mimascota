@@ -1,37 +1,37 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ver Perfil</title>
-  <link rel="stylesheet" href="styles/styles.css" />
+  <link rel="stylesheet" href="styles/verperfil.css" />
 </head>
 <body>
-  <header class="topbar">
-    <a href="index.html" class="btn ghost">&larr; Perfiles</a>
-    <h1>Perfil público</h1>
-  </header>
-
-  <main class="container">
-    <div id="perfilCard" class="card perfil-card readonly">
-      <div class="avatar-block">
-        <img id="avatarPublic" class="avatar" alt="Avatar mascota" />
-      </div>
-      <h2 id="nombrePublic"></h2>
-      <div class="info readonly-info">
-        <p><strong>Edad:</strong> <span id="edadPublic"></span></p>
-        <p><strong>Dirección:</strong> <span id="direccionPublic"></span></p>
-        <p><strong>Celular 1:</strong> <span id="celular1Public"></span></p>
-        <p><strong>Celular 2:</strong> <span id="celular2Public"></span></p>
-        <p><strong>Vacunas:</strong> <span id="vacunasPublic"></span></p>
-      </div>
-      <div id="notFound" style="display:none;text-align:center;padding:16px;">
-        <p>Perfil no encontrado.</p>
-        <a href="index.html" class="btn">Volver</a>
-      </div>
+  <div class="verperfil-container">
+    <div class="verperfil-avatar">
+      <img id="verAvatar" src="imagenes/d33c06ed8d607c70de9dc22b8c9b3830.jpg" alt="Avatar del dueño">
     </div>
-  </main>
 
-  <script src="scripts/verPerfil.js"></script>
+    <div id="perfilInfo">
+      <p><strong>Nombre:</strong> <span id="verNombre">—</span></p>
+      <p><strong>Edad:</strong> <span id="verEdad">—</span></p>
+      <p><strong>Dirección:</strong> <span id="verDireccion">—</span></p>
+      <p><strong>Celular 1:</strong> <span id="verCelular1">—</span></p>
+      <p><strong>Celular 2:</strong> <span id="verCelular2">—</span></p>
+      <p><strong>Vacunas:</strong> <span id="verVacunas">—</span></p>
+    </div>
+
+    <div class="verperfil-botones">
+      <button id="editarPerfilBtn">Editar Perfil</button>
+      <button id="regresarBtn">Regresar</button>
+    </div>
+
+    <div id="noPerfil" class="hidden">
+      <p>No hay ningún perfil registrado aún.</p>
+      <button id="registrarBtn">Registrar nuevo perfil</button>
+    </div>
+  </div>
+
+  <script src="scripts/verperfil.js"></script>
 </body>
 </html>

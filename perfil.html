@@ -4,7 +4,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Editar Perfil</title>
-  <link rel="stylesheet" href="styles/styles.css" />
+  <!-- Cargar solo estilos del perfil -->
+  <link rel="stylesheet" href="styles/perfil.css" />
 </head>
 <body>
   <header class="topbar">
@@ -12,8 +13,8 @@
     <h1>Editar Perfil</h1>
   </header>
 
-  <main class="container perfil-container">
-    <div class="card perfil-card">
+  <main class="perfil-container">
+    <div class="perfil-card">
       <div class="avatar-block">
         <img id="avatarMascota" class="avatar" alt="Avatar mascota" />
         <label for="avatarInput" class="avatar-edit" title="Cambiar avatar">✏️</label>
@@ -24,51 +25,39 @@
         <label>Nombre</label>
         <input id="nombre" type="text" />
 
-        <label>Edad</label>
+        <label>Edad en meses o años</label>
         <input id="edad" type="text" />
 
         <label>Dirección</label>
         <input id="direccion" type="text" />
 
-        <label>Celular emergencia 1</label>
+        <label>Celular 1</label>
         <input id="celular1" type="text" />
 
-        <label>Celular emergencia 2</label>
+        <label>Celular 2 opcional</label>
         <input id="celular2" type="text" />
 
         <label>Vacunas</label>
         <input id="vacunas" type="text" />
       </div>
 
-    
       <div class="actions">
         <button id="btnGuardar" class="btn primary">Guardar</button>
         <button id="btnEliminar" class="btn danger">Eliminar</button>
         <button id="btnQR" class="btn">Generar QR</button>
       </div>
-      
-      <!-- Contenedor del QR -->
-      <div id="qrContainer" class="qr-container"></div>
-      
 
-<!-- Contenedor del QR -->
-<div id="qrContainer" class="qr-container">
-  <canvas id="codigoQR"></canvas>
-  <div class="qr-actions">
-    <button id="descargarQRBtn">Descargar PDF</button>
-    
-  </div>
-</div>
-
-
-      <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-      <script src="main.js"></script>
-      
-     
+      <div id="qrContainer" class="qr-container">
+        <canvas id="codigoQR"></canvas>
+        <div class="qr-actions">
+          
+        </div>
+      </div>
     </div>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="scripts/perfil.js"></script>
 </body>
 </html>

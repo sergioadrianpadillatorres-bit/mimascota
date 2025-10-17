@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Información del Dueño</title>
+  <link rel="stylesheet" href="styles/dueño.css" />
+</head>
+<body>
+  <main class="dueno-page">
+    <div class="dueno-card">
+      <!-- Avatar a la izquierda -->
+      <aside class="dueno-left">
+        <div class="avatar-wrapper">
+          <img id="avatarPreview" src="imagenes/1000_F_259394679_GGA8JJAEkukYJL9XXFH2JoC3nMguBPNH.jpg" alt="Avatar dueño">
+          <label class="avatar-pencil" for="avatarInput" title="Cambiar foto">✏️</label>
+          <input id="avatarInput" type="file" accept="image/*" style="display:none">
+        </div>
+      </aside>
+
+      <!-- Contenido a la derecha -->
+      <section class="dueno-right">
+        <!-- Modo vista -->
+        <div id="viewMode" class="mode view-mode" style="display:none">
+          <h2 id="ownerFullName"></h2>
+          <p><strong>Edad:</strong> <span id="viewEdad"></span></p>
+          <p><strong>Dirección:</strong> <span id="viewDireccion"></span></p>
+          <p><strong>Correo:</strong> <span id="viewCorreo"></span></p>
+          <p><strong>Celular:</strong> <span id="viewCelular"></span></p>
+
+          <div class="actions">
+            <button id="btnEditar" class="btn primary">Editar</button>
+            <button id="btnRegresar" class="btn ghost">Regresar</button>
+          </div>
+        </div>
+
+        <!-- Modo edición / registro -->
+        <form id="editMode" class="mode edit-mode" style="display:none">
+          <label>Nombre</label>
+          <input id="nombre" type="text" required>
+
+          <label>Apellido</label>
+          <input id="apellido" type="text" required>
+
+          <label>Edad</label>
+          <div class="edad-container">
+            <input id="edad" type="number" min="0">
+            <span class="edad-sufijo">años</span>
+          </div>
+          
+
+          <label>Dirección</label>
+          <input id="direccion" type="text">
+          
+
+          <label>Correo electrónico</label>
+          <input id="correo" type="email">
+
+          <label>Celular</label>
+          <input id="celular" type="text">
+
+          <div class="actions">
+            <button id="btnGuardar" type="submit" class="btn primary">Guardar</button>
+            <button id="btnCancelar" type="button" class="btn ghost">Cancelar</button>
+          </div>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <script src="scripts/dueño.js"></script>
+</body>
+</html>
