@@ -102,4 +102,68 @@ body {
   .qr-actions {
     margin-top: 8px;
   }
-  
+  /* --- AJUSTES RESPONSIVOS PARA MÓVILES --- */
+@media (max-width: 480px) {
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: #fafafa;
+    font-size: 16px;
+  }
+
+  .verperfil-container {
+    width: 100%;
+    max-width: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+  }
+
+  .verperfil-avatar {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+
+  .verperfil-avatar img {
+    width: 100px;
+    height: 100px;
+    border-width: 2px;
+  }
+
+  #perfilInfo p {
+    font-size: 15px;
+    line-height: 1.4;
+    word-wrap: break-word;
+  }
+
+  .verperfil-botones {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .verperfil-botones button {
+    width: 100%;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    background-color: #6a0dad;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .verperfil-botones button:hover {
+    background-color: #8b30e0;
+  }
+
+  #perfilInfo {
+    text-align: left;
+    margin-top: 10px;
+    background: #fff;
+    padding: 12px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+}
