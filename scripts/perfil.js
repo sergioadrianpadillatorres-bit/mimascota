@@ -33,38 +33,148 @@ document.addEventListener("DOMContentLoaded", () => {
     avatarImg.src = DEFAULT_AVATAR;
   }
 
-  avatarInput.addEventListener("change", (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-  
-    // Validación correcta por tamaño del archivo (10 MB)
-    if (file.size > 10 * 1024 * 1024) {
-      alert("La imagen es muy grande (máx 10MB). Usa una más pequeña.");
-      return;
-    }
-  
-    const reader = new FileReader();
-  
-    reader.onload = (ev) => {
-      const imgData = ev.target.result;
-  
-      // Asegura índice válido
-      if (isNaN(idx) || !mascotas[idx]) mascotas[idx] = {};
-  
-      mascotas[idx].avatar = imgData;
-      localStorage.setItem("mascotas", JSON.stringify(mascotas));
-  
-      avatarImg.src = imgData;
-      alert("✅ Imagen actualizada correctamente.");
+  // Helpers IndexedDB (promesas simples)
+function openDb(dbName = "myAppDB", storeName = "images") {
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open(dbName, 1);
+    req.onupgradeneeded = () => {
+      req.result.createObjectStore(storeName, { keyPath: "id", autoIncrement: true });
     };
-  
-    reader.onerror = () => {
-      alert("❌ Ocurrió un error al leer la imagen. Intenta con otra foto.");
-    };
-  
-    reader.readAsDataURL(file); // Leer siempre como base64
+    req.onsuccess = () => resolve({ db: req.result, storeName });
+    req.onerror = () => reject(req.error);
   });
-  
+}
+
+function idbPut(db, storeName, blob) {
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(storeName, "readwrite");
+    const store = tx.objectStore(storeName);
+    const request = store.add({ blob, created: Date.now() });
+    request.onsuccess = () => resolve(request.result); // id
+    request.onerror = () => reject(request.error);
+  });
+}
+
+function idbGet(db, storeName, id) {
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(storeName, "readonly");
+    const store = tx.objectStore(storeName);
+    const request = store.get(id);
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+}
+
+// Comprime imagen usando canvas. Intenta mantener dimensiones razonables y calidad.
+function compressImageFile(file, maxWidth = 1600, maxHeight = 1600, targetBytes = 2 * 1024 * 1024) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = async () => {
+      URL.revokeObjectURL(url);
+
+      // calcular dimensiones manteniendo aspect ratio
+      let { width, height } = img;
+      const ratio = width / height;
+      if (width > maxWidth) {
+        width = maxWidth;
+        height = Math.round(width / ratio);
+      }
+      if (height > maxHeight) {
+        height = maxHeight;
+        width = Math.round(height * ratio);
+      }
+
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, width, height);
+
+      // intentar con diferentes calidades hasta caber en targetBytes
+      let quality = 0.92; // start
+      let blob = await new Promise(res => canvas.toBlob(res, "image/webp", quality));
+      // si no webp soportado por el toBlob, intentar 'image/jpeg'
+      if (!blob) blob = await new Promise(res => canvas.toBlob(res, "image/jpeg", quality));
+
+      let attempts = 0;
+      while (blob && blob.size > targetBytes && attempts < 8) {
+        quality -= 0.12; // reducir calidad
+        if (quality < 0.2) quality = 0.2;
+        // recalculate blob
+        blob = await new Promise(res => canvas.toBlob(res, "image/webp", quality));
+        if (!blob) blob = await new Promise(res => canvas.toBlob(res, "image/jpeg", quality));
+        attempts++;
+      }
+
+      if (!blob) {
+        reject(new Error("No se pudo comprimir la imagen."));
+        return;
+      }
+
+      // Si blob es pequeño lo convertimos a dataURL (para localStorage), si no devolvemos blob para IndexedDB
+      if (blob.size <= targetBytes) {
+        // convertir a dataURL
+        const reader = new FileReader();
+        reader.onload = () => resolve({ type: "dataurl", data: reader.result });
+        reader.onerror = () => reject(new Error("Error convirtiendo imagen a DataURL"));
+        reader.readAsDataURL(blob);
+      } else {
+        // demasiado grande aun así -> devolver blob para almacenarlo en IndexedDB
+        resolve({ type: "blob", data: blob });
+      }
+    };
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error("Error cargando la imagen."));
+    };
+    img.src = url;
+  });
+}
+
+// Función principal del listener
+avatarInput.addEventListener("change", async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  try {
+    // Intentamos comprimir a un objetivo seguro para localStorage (2 MB)
+    const TARGET_LOCALSTORAGE_BYTES = 2 * 1024 * 1024; // 2MB
+    const compressResult = await compressImageFile(file, 1200, 1200, TARGET_LOCALSTORAGE_BYTES);
+
+    // Asegura índice válido
+    if (isNaN(idx) || !mascotas[idx]) mascotas[idx] = {};
+
+    if (compressResult.type === "dataurl") {
+      // cabe en localStorage
+      mascotas[idx].avatar = compressResult.data;
+      localStorage.setItem("mascotas", JSON.stringify(mascotas));
+      avatarImg.src = compressResult.data;
+      alert("✅ Imagen actualizada correctamente.");
+    } else if (compressResult.type === "blob") {
+      // fallback a IndexedDB: guardamos blob y guardamos el id en mascotas
+      const { db, storeName } = await openDb();
+      const id = await idbPut(db, storeName, compressResult.data);
+      mascotas[idx].avatarIndexedDB = { dbName: "myAppDB", storeName, id };
+      // guardamos mascotas en localStorage (la referencia)
+      localStorage.setItem("mascotas", JSON.stringify(mascotas));
+
+      // obtener blob y mostrarlo
+      const rec = await idbGet(db, storeName, id);
+      const blob = rec.blob;
+      const objectUrl = URL.createObjectURL(blob);
+      avatarImg.src = objectUrl;
+
+      alert("✅ Imagen guardada (usando almacenamiento local avanzado).");
+    } else {
+      throw new Error("Resultado de compresión inesperado.");
+    }
+  } catch (err) {
+    console.error(err);
+    alert("❌ Error guardando el perfil. Intenta con otra foto o intenta subirla a un servidor.");
+  }
+});
+
 
   // 🟣 Guardar / Modificar perfil
   btnGuardar.addEventListener("click", () => {
