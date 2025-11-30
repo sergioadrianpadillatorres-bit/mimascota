@@ -11,7 +11,7 @@ body{
   margin:0;
   font-family: "Roboto", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
   background: var(--muted-bg);
-  color:var(--purple);
+  color:var(--muted-bge);
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
 }

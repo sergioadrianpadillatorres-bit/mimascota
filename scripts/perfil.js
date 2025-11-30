@@ -33,37 +33,38 @@ document.addEventListener("DOMContentLoaded", () => {
     avatarImg.src = DEFAULT_AVATAR;
   }
 
-  // 🟣 Cambiar avatar (compatible con móviles)
   avatarInput.addEventListener("change", (e) => {
     const file = e.target.files[0];
     if (!file) return;
-
+  
+    // Validación correcta por tamaño del archivo (10 MB)
+    if (file.size > 10 * 1024 * 1024) {
+      alert("La imagen es muy grande (máx 10MB). Usa una más pequeña.");
+      return;
+    }
+  
     const reader = new FileReader();
+  
     reader.onload = (ev) => {
       const imgData = ev.target.result;
-
-      // Verifica el tamaño antes de guardar (máx 10ñ MB)
-      if (imgData.length > 100_000_000) {
-        alert("La imagen es muy grande (máx 50MB). Usa una más pequeña.");
-        return;
-      }
-
+  
       // Asegura índice válido
       if (isNaN(idx) || !mascotas[idx]) mascotas[idx] = {};
-
+  
       mascotas[idx].avatar = imgData;
       localStorage.setItem("mascotas", JSON.stringify(mascotas));
-
+  
       avatarImg.src = imgData;
       alert("✅ Imagen actualizada correctamente.");
     };
-
+  
     reader.onerror = () => {
-      alert("Error al leer la imagen. Intenta nuevamente.");
+      alert("❌ Ocurrió un error al leer la imagen. Intenta con otra foto.");
     };
-
-    reader.readAsDataURL(file);
+  
+    reader.readAsDataURL(file); // Leer siempre como base64
   });
+  
 
   // 🟣 Guardar / Modificar perfil
   btnGuardar.addEventListener("click", () => {
