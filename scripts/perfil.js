@@ -42,9 +42,9 @@ document.addEventListener("DOMContentLoaded", () => {
     reader.onload = (ev) => {
       const imgData = ev.target.result;
 
-      // Verifica el tamaño antes de guardar (máx 2 MB)
-      if (imgData.length > 2_000_000) {
-        alert("La imagen es muy grande (máx 2MB). Usa una más pequeña.");
+      // Verifica el tamaño antes de guardar (máx 10ñ MB)
+      if (imgData.length > 10_000_000) {
+        alert("La imagen es muy grande (máx 10MB). Usa una más pequeña.");
         return;
       }
 

@@ -1,7 +1,7 @@
 :root{
-  --purple: #6a0dad;
-  --muted-bg: #f5efff;
-  --card-bg: #ffffff;
+  --purple: #E0E0E0;
+  --muted-bg: #121212;
+  --card-bg: #E0E0E0;
 }
 
 /* reset y base */
@@ -9,20 +9,20 @@
 html,body{height:100%}
 body{
   margin:0;
-  font-family: Inter, system-ui, -apple-system, "Helvetica Neue", Arial;
+  font-family: "Roboto", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
   background: var(--muted-bg);
-  color:#222;
+  color:var(--purple);
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
 }
 
 /* ---------------- Banner ---------------- */
 .banner{
-  background-color: var(--purple);
-  color: #fff;
+  
+  color:var(--purple);
   /* altura reducida (mitad aprox del tamaño previo) */
   padding: 14px 18px;      /* reducido */
-  border-bottom: 1px solid rgba(0,0,0,0.06);
+  
 }
 
 /* inner para centrar y limitar ancho */
@@ -94,8 +94,8 @@ body{
 /* botones genéricos (mantén o ajusta según tu tema) */
 .btn{
   padding:10px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:600;
-  background:#e73c3c;color:#222;
+  background:#e73c3c;color:var(--muted-bg);
 }
-.btn.primary{background:var(--purple);color:rgb(231, 185, 185)}
-.btn.ghost{background:transparent;border:1px solid rgba(0,0,0,0.06)}
+.btn.primary{background:var(--purple);color:var(--muted-bg)}
+.btn.ghost{background:var(--card-bg)}
 
