@@ -1,25 +1,29 @@
+@import url("variables.css");
+
+
 body {
     margin: 0;
     font-family: Inter, system-ui, sans-serif;
-    background-color: #f9f9f9;
+    background-color: var(--muted-bg);
   }
   
   .topbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #6a0dad;
-    color: white;
+    background-color: var(--color);
+    color: var(--purple);
     padding: 10px 20px;
   }
   
   .perfil-container {
-    max-width: 700px;
+    max-width: 600px;
     margin: 40px auto;
-    background: white;
+    background: var(--tex-black);
     border-radius: 14px;
     padding: 24px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    background-color: transparent;
+    
   }
   
   .perfil-card {
@@ -54,7 +58,7 @@ body {
   .info {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
     width: 100%;
     
   }
@@ -62,13 +66,14 @@ body {
   .info label {
     font-weight: 600;
     margin-top: 6px;
+    color:var(--tex-white)
     
   }
   
-  .info input {
+.info input {
     padding: 8px;
     border-radius: 8px;
-    border: 1px solid #f9f7f7;
+    border: 1px solid var(--tex-black);
   }
   
   .actions {
@@ -84,12 +89,14 @@ body {
     font-weight: 600;
     cursor: pointer;
     border: none;
-    
+    font-size: 20px;
+    color:var(--muted-bg);
+       
   }
   
   .btn.primary {
     background-color: #6a0dad;
-    color: white;
+    color:var(--tex-black);
   }
   
   .btn.danger {
@@ -106,3 +113,4 @@ body {
     margin-top: 8px;
   }
   
+

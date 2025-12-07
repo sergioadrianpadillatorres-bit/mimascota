@@ -13,7 +13,7 @@ function createCard(m, i) {
   card.style.width = '220px';
   card.style.padding = '12px';
   card.style.borderRadius = '10px';
-  card.style.background = '#fff';
+  card.style.background = 'transplate';
   card.style.boxShadow = '0 6px 18px rgba(0,0,0,0.06)';
   card.style.display = 'flex';
   card.style.flexDirection = 'column';
@@ -31,14 +31,14 @@ function createCard(m, i) {
 
   const name = document.createElement('div');
   name.textContent = m.nombre || 'Sin nombre';
-  name.style.fontWeight = '700';
-  name.style.color = '#4c0788';
+  name.style.fontWeight = '800';
+  name.style.color = 'var(--tex-black)';
   card.appendChild(name);
 
   const mini = document.createElement('div');
   mini.innerHTML = `<small>${m.direccion || ''}</small><br/><small>${m.celular1 || ''}</small>`;
   mini.style.textAlign = 'center';
-  mini.style.fontSize = '12px';
+  mini.style.fontSize = '14px';
   card.appendChild(mini);
 
   const btns = document.createElement('div');

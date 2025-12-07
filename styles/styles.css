@@ -1,19 +1,16 @@
-:root{
-  --purple: #E0E0E0;
-  --muted-bg: #121212;
-  --card-bg: #E0E0E0;
-}
+@import url("variables.css");
 
-/* reset y base */
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
   margin:0;
-  font-family: "Roboto", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--tex);
   background: var(--muted-bg);
   color:var(--muted-bge);
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
+
+  
 }
 
 /* ---------------- Banner ---------------- */
@@ -40,6 +37,7 @@ body{
   font-size:28px; /* reducido respecto a versión grande */
   font-weight:800;
   letter-spacing:0.2px;
+  
 }
 
 
@@ -50,6 +48,7 @@ body{
   align-items:center;
   gap:8px;
   cursor:pointer;
+  
 }
 
 .owner-avatar-container img{
@@ -60,42 +59,60 @@ body{
   /* quita bordes: no border */
   box-shadow: 0 2px 6px rgba(0,0,0,0.12);
   transition: transform .15s ease;
+  
 }
 
 .owner-avatar-container img:hover{
   transform: scale(1.06);
+  
 }
 
 /* ---------------- Main container & spacing ---------------- */
 .container{
   max-width:1100px;
-  margin:28px auto;   /* agrega separación entre banner y perfiles */
-  padding:16px;
+  margin:100px auto;   /* agrega separación entre banner y perfiles */
+  padding:20px;
+  
+  
 }
 
 /* Profiles grid (mantener tu estilo) */
 .profiles{
   display:flex;
   flex-wrap:wrap;
-  gap:14px;
+  gap:6px;
   justify-content:center;
   align-items:flex-start;
-  margin-top:12px;
+  margin-top:16px;
+  color: var(--tex-black);
+ 
 }
 
 /* botones de control centrados y con separación */
 .controls{
   display:flex;
-  gap:12px;
+  gap:18px;
   justify-content:center;
-  margin-top:18px;
+  margin-top:38px;
+  
 }
 
 /* botones genéricos (mantén o ajusta según tu tema) */
 .btn{
-  padding:10px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:600;
-  background:#e73c3c;color:var(--muted-bg);
+  padding:10px 14px;
+  border-radius:10px;
+  border:0;
+  cursor:pointer;
+  font-weight:600;
+  background:var(--color-remove);
+  color:var(--tex-black);
 }
-.btn.primary{background:var(--purple);color:var(--muted-bg)}
-.btn.ghost{background:var(--card-bg)}
+.btn.primary{
+  background:var(--purple);
+  color:var(--tex-black)
+}
+.btn.ghost{
+  background:var(--purple)
+}
+
 

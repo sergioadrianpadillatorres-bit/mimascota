@@ -1,5 +1,5 @@
 // scripts/dueno.js
-document.addEventListener('DOMContentLoaded', () => {
+drdocument.addEventListener('DOMContentLoaded', () => {
     // Elementos
     const avatarInput = document.getElementById('avatarInput');
     const avatarPreview = document.getElementById('avatarPreview');
