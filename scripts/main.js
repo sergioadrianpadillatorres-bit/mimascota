@@ -31,14 +31,14 @@ function createCard(m, i) {
 
   const name = document.createElement('div');
   name.textContent = m.nombre || 'Sin nombre';
-  name.style.fontWeight = '800';
-  name.style.color = 'var(--tex-black)';
+  name.style.fontWeight = '700';
+  name.style.color = '#4c0788';
   card.appendChild(name);
 
   const mini = document.createElement('div');
   mini.innerHTML = `<small>${m.direccion || ''}</small><br/><small>${m.celular1 || ''}</small>`;
   mini.style.textAlign = 'center';
-  mini.style.fontSize = '14px';
+  mini.style.fontSize = '12px';
   card.appendChild(mini);
 
   const btns = document.createElement('div');
