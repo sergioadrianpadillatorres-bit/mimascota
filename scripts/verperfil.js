@@ -51,3 +51,57 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = "perfil.html";
   });
 });
+
+
+// Al cargar verperfil.html: leer hash ? mostrar perfil si viene 'p='
+document.addEventListener("DOMContentLoaded", () => {
+  function parseHash() {
+    const hash = location.hash.substring(1); // quitar '#'
+    if (!hash) return null;
+    const params = new URLSearchParams(hash.replace(/\?/,''));
+    const p = params.get('p');
+    if (!p) return null;
+    try {
+      const json = decodeURIComponent(escape(atob(p)));
+      return JSON.parse(json);
+    } catch (e) {
+      console.error("Error decoding profile from hash", e);
+      return null;
+    }
+  }
+
+  const profile = parseHash();
+  if (!profile) {
+    // no hay perfil en la URL: tu comportamiento normal (por ejemplo, buscar por pet query param)
+    return;
+  }
+
+  // Aquí ya tienes el objeto profile con thumb y campos
+  // Ahora muéstralo en tu HTML. Ajusta selectores según tu verperfil.html
+  const avatarEl = document.getElementById('avatarView'); // <img id="avatarView">
+  const nombreEl = document.getElementById('nombreView'); // elementos donde mostrar
+  const edadEl = document.getElementById('edadView');
+  const direccionEl = document.getElementById('direccionView');
+  const cel1El = document.getElementById('cel1View');
+  const cel2El = document.getElementById('cel2View');
+  const vacunasEl = document.getElementById('vacunasView');
+
+  // fallback: crear elementos si no existen (por seguridad)
+  if (!avatarEl) {
+    const img = document.createElement('img');
+    img.id = 'avatarView';
+    img.style.width = '180px';
+    img.style.height = '180px';
+    img.style.objectFit = 'cover';
+    img.style.borderRadius = '8px';
+    document.body.prepend(img);
+  }
+
+  document.getElementById('avatarView').src = profile.thumb || profile.avatar || 'imagenes/d33c06ed8d607c70de9dc22b8c9b3830.jpg';
+  if (nombreEl) nombreEl.textContent = profile.nombre || '';
+  if (edadEl) edadEl.textContent = profile.edad || '';
+  if (direccionEl) direccionEl.textContent = profile.direccion || '';
+  if (cel1El) cel1El.textContent = profile.celular1 || '';
+  if (cel2El) cel2El.textContent = profile.celular2 || '';
+  if (vacunasEl) vacunasEl.textContent = profile.vacunas || '';
+});

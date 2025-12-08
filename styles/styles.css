@@ -16,11 +16,8 @@ body{
 
 /* ---------------- Banner ---------------- */
 .banner{
-  
   color:var(--purple);
-  /* altura reducida (mitad aprox del tamaño previo) */
-  padding: 14px 18px;      /* reducido */
-  
+  padding: 14px 18px; 
 }
 
 /* inner para centrar y limitar ancho */
@@ -86,6 +83,8 @@ body{
   align-items:flex-start;
   margin-top:16px;
   color: var(--tex-black);
+  font-size:var(--font-size);
+  font-weight :bold ;
  
 }
 
